@@ -702,3 +702,34 @@ void BMSModuleManager::printAllCSV(unsigned long timestamp, float current, int S
     }
   }
 }
+
+void BMSModuleManager::logCSV(unsigned long timestamp, float current, int SOC, int BAL)
+{
+  for (int y = 1; y < 63; y++)
+  {
+    if (modules[y].isExisting())
+    {
+      Serial2.print(timestamp);
+      Serial2.print(",");
+      Serial2.print(BAL);
+      Serial2.print(",");
+      Serial2.print(current, 0);
+      Serial2.print(",");
+      Serial2.print(SOC);
+      Serial2.print(",");
+      Serial2.print(y);
+      Serial2.print(",");
+      for (int i = 0; i < 8; i++)
+      {
+        Serial2.print(modules[y].getCellVoltage(i), 4);
+        Serial2.print(",");
+      }
+      Serial2.print(modules[y].getTemperature(0));
+      Serial2.print(",");
+      Serial2.print(modules[y].getTemperature(1));
+      Serial2.print(",");
+      Serial2.print(modules[y].getTemperature(2));
+      Serial2.println();
+    }
+  }
+}
